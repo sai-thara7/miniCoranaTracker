@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="typeAhead.css">
+    <title>Mask Up</title>
+</head>
+
+<body>
+    <nav class="navCont">
+        <div class="navBar">
+            <div class="logo">MASK UP</div>
+            <ul class="navMenu">
+                <li class="activeCases"><a href="#activeCases" >Active cases</a></li>
+                <li class="graph"><a href="graph.html">Graph</a></li>
+                <li class="aboutUs"><a href="#aboutUs">About US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id="activeCases">
+        <div class="radios">
+            <div>
+                <input type="radio" name="Rad" id="activeRad" checked>
+                <label for="activeRad" class="aLabel">Active cases</label>
+            </div>
+            <div>
+                <input type="radio" name="Rad" id="recoveredRad">
+                <label for="recoveredRad" class="rLabel">Recovered cases</label>
+            </div>
+        </div>
+        <input type="text" class="input">
+        <ul class="listCont">
+            <li class="initial listitem">search state of India <span
+                    class="active"><span class="activeCS" ></span><span class="recoveredcs hidden"></span></li>
+            <li class="initial listitem">to know the active cases</li>
+        </ul>
+    </div>
+
+
+
+    <script src="typeAhead.js"></script>
+</body>
+
+</html>
