@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="typeAhead.css">
+</head>
+
+<body>
+
+    <nav class="navCont">
+        <div class="navBar">
+            <div class="logo">MASK UP</div>
+            <ul class="navMenu">
+                <li class="activeCases"><a href="typeAhead.html">Active cases</a></li>
+                <li class="graph"><a href="graph.html">Graph</a></li>
+                <li class="aboutUs"><a href="#aboutUs">About US</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="radios" style="margin-top:100px;">
+        <div>
+            <input type="radio" name="Rad" id="activeRad" checked>
+            <label for="activeRad" class="aLabel">Active cases</label>
+        </div>
+        <div>
+            <input type="radio" name="Rad" id="deathsRad">
+            <label for="recoveredRad" class="rLabel">Deaths in india</label>
+        </div>
+    </div>
+
+    <div>
+        <canvas id="myChart" width="80%" height="30%"
+            style="z-index:0; margin-top: 100px; margin-bottom: 10px;"></canvas>
+    </div>
+    <div>
+        <canvas id="myChart1" width="80%" height="30%" style="z-index:0; margin-top: 100px; display: none;"></canvas>
+    </div>
+    <script>
+        affectedObj = [];
+        obj = {};
+        totalCasesYaxis = [];
+        deathsYaxis = [];
+        timeXaxis = [];
+        let myChart = document.querySelector("#myChart");
+        let myChart1 = document.querySelector("#myChart1");
+        let activeRad = document.querySelector("#activeRad");
+        let deathsRad = document.querySelector("#deathsRad");
+
+        deathsRad.addEventListener("click", () => {
+            myChart1.style.display = "block";
+            myChart.style.display = "none";
+        });
+        activeRad.addEventListener("click", () => {
+            myChart1.style.display = "none";
+            myChart.style.display = "block";
+        });
+
+
+        function getData(callback) {
+            url = "https://api.apify.com/v2/datasets/58a4VXwBBF0HtxuQa/items?format=json&clean=1";
+
+
+            fetch(url)
+                .then(responsePro => responsePro.json())
+                .then(data => {
+                    console.log(data);
+                    for (i in data) {
+                        if (i >= 100)
+                            break;
+                        totalCasesYaxis.push(data[i].totalCases);
+                        timeXaxis.push(data[i].lastUpdatedAtApify);
+                        deathsYaxis.push(data[i].deaths);
+                    }
+                    callback(totalCasesYaxis, 'myChart', "Active cases in india");
+                    callback(deathsYaxis, 'myChart1', "Deaths");
+                });
+            // console.log(affectedObj);
+        }
+
+        function display(arr, id, str) {
+
+
+
+
+            var ctx = document.getElementById(id).getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeXaxis,
+                    datasets: [{
+                        label: str,
+                        data: arr,
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }       // getData();
+        getData(display);
+    </script>
+
+
+
+
+</body>
+
+</html>
